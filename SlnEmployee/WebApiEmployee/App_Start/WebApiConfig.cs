@@ -19,6 +19,18 @@ namespace WebApiEmployee
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+
+            //--------Return only XML/JSON form web api sevice
+            //config.Formatters.Remove(config.Formatters.XmlFormatter);// return only JSON 
+
+            //config.Formatters.Remove(config.Formatters.JsonFormatter);// return only XMK 
+
+
+            //--------JSONFORMATTER--------------
+            // config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+            // config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
         }
     }
 }
