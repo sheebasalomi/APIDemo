@@ -10,13 +10,35 @@ namespace WebApiEmployee.Controllers
 {
     public class EmployeesController : ApiController
     {
+        //[HttpGet]
+        //public IEnumerable<Employee> LoadAllEmployees()
+        //{
+        //    EmployeeDBEntities entities = new EmployeeDBEntities();
+        //    return entities.Employees;
+        //}
+
         [HttpGet]
-        public IEnumerable<Employee> LoadAllEmployees()
+        public HttpResponseMessage LoadAllEmployees(string gender = "All") //http://localhost:65428/api/employees?gender=all
         {
             EmployeeDBEntities entities = new EmployeeDBEntities();
-            return entities.Employees;
+            switch (gender.ToLower())
+            {
+                case "all":
+                    return Request.CreateResponse(HttpStatusCode.OK, entities.Employees);
+                case "male":
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                       (entities.Employees.Where(e => e.Gender.ToLower() == "male" )));
+                case "female":
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                       (entities.Employees.Where(e => e.Gender.ToLower() == "female")));
+                default:
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,"Please enter a valid value for gender");
+
+            }
+
         }
-               
+
+
         [HttpGet]
         public HttpResponseMessage LoadEmployeeById(int id)
         {
