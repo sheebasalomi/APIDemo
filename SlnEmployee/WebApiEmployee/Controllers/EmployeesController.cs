@@ -10,13 +10,15 @@ namespace WebApiEmployee.Controllers
 {
     public class EmployeesController : ApiController
     {
-        public IEnumerable<Employee> Get()
+        [HttpGet]
+        public IEnumerable<Employee> LoadAllEmployees()
         {
             EmployeeDBEntities entities = new EmployeeDBEntities();
             return entities.Employees;
         }
-
-        public HttpResponseMessage Get(int id)
+               
+        [HttpGet]
+        public HttpResponseMessage LoadEmployeeById(int id)
         {
             using (EmployeeDBEntities entities = new EmployeeDBEntities())
             {
@@ -75,6 +77,33 @@ namespace WebApiEmployee.Controllers
             }
         }
 
+        public HttpResponseMessage Put(int id, [FromBody]Employee employee)
+        {
+            try
+            {
+                using (EmployeeDBEntities entities = new EmployeeDBEntities())
+                {
+                    var entity = entities.Employees.FirstOrDefault(e => e.ID == id);
+                    if (entity != null)
+                    {
+                        entity.FirstName = employee.FirstName;
+                        entity.LastName = employee.LastName;
+                        entity.Gender = employee.Gender;
+                        entity.Salary = employee.Salary;
+                        entities.SaveChanges();
+                        return Request.CreateResponse(HttpStatusCode.OK);
+                    }
+                    else
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Employee with the id " + id + " not found.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
 
     }
 }
