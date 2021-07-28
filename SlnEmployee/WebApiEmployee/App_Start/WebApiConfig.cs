@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace WebApiEmployee
 {
@@ -19,6 +20,11 @@ namespace WebApiEmployee
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            //https://localhost:44325/HtmlPage1.html
+
+            EnableCorsAttribute cors = new EnableCorsAttribute("https://localhost:44325", "*", "*");
+            config.EnableCors(cors);
 
 
             //--------Return only XML/JSON form web api sevice
