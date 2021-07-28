@@ -99,7 +99,16 @@ namespace WebApiEmployee.Controllers
             }
         }
 
-        public HttpResponseMessage Put(int id, [FromBody]Employee employee)
+        /// <summary>
+        /// if the parameter is simple type like int or bool, web api get the value form URI by default,
+        /// otherwise we have to specify like [FromBody]
+        /// if the parameter is complex type like employee, web api get the value form body by default,
+        /// otherwise we have to specify like [FromURI]
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="employee"></param>
+        ///
+        public HttpResponseMessage Put(int id, [FromBody]Employee employee)//if we remove [FromBody], doesn't make any difference
         {
             try
             {
