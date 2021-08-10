@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
 using EmployeeDataAccess;
 
@@ -17,22 +18,45 @@ namespace WebApiEmployee.Controllers
         //    return entities.Employees;
         //}
 
+        //[HttpGet]
+        //public HttpResponseMessage LoadAllEmployees(string gender = "All") //http://localhost:65428/api/employees?gender=all
+        //{
+
+        //    EmployeeDBEntities entities = new EmployeeDBEntities();
+        //    switch (gender.ToLower())
+        //    {
+        //        case "all":
+        //            return Request.CreateResponse(HttpStatusCode.OK, entities.Employees);
+        //        case "male":
+        //            return Request.CreateResponse(HttpStatusCode.OK,
+        //               (entities.Employees.Where(e => e.Gender.ToLower() == "male" )));
+        //        case "female":
+        //            return Request.CreateResponse(HttpStatusCode.OK,
+        //               (entities.Employees.Where(e => e.Gender.ToLower() == "female")));
+        //        default:
+        //            return Request.CreateResponse(HttpStatusCode.BadRequest,"Please enter a valid value for gender");
+
+        //    }
+
+        //}
+
+
         [HttpGet]
-        public HttpResponseMessage LoadAllEmployees(string gender = "All") //http://localhost:65428/api/employees?gender=all
+        [BasicAuthentication]
+        public HttpResponseMessage LoadAllEmployees()
         {
+            string username = Thread.CurrentPrincipal.Identity.Name;
             EmployeeDBEntities entities = new EmployeeDBEntities();
-            switch (gender.ToLower())
+            switch (username.ToLower())
             {
-                case "all":
-                    return Request.CreateResponse(HttpStatusCode.OK, entities.Employees);
-                case "male":
+                 case "male":
                     return Request.CreateResponse(HttpStatusCode.OK,
-                       (entities.Employees.Where(e => e.Gender.ToLower() == "male" )));
+                       (entities.Employees.Where(e => e.Gender.ToLower() == "male")));
                 case "female":
                     return Request.CreateResponse(HttpStatusCode.OK,
                        (entities.Employees.Where(e => e.Gender.ToLower() == "female")));
                 default:
-                    return Request.CreateResponse(HttpStatusCode.BadRequest,"Please enter a valid value for gender");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest);
 
             }
 

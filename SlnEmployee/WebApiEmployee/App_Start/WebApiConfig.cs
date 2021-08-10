@@ -21,7 +21,7 @@ namespace WebApiEmployee
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            //https://localhost:44325/HtmlPage1.html
+            //https://localhost:44325/HtmlPage1.html ==> client application HtmlPage1
 
             EnableCorsAttribute cors = new EnableCorsAttribute("https://localhost:44325", "*", "*");
             config.EnableCors(cors);
